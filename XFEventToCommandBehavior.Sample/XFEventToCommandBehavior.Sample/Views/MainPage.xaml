@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:XFEventToCommandBehavior.Sample.ViewModels;assembly=XFEventToCommandBehavior.Sample"
+             xmlns:vw="clr-namespace:XFEventToCommandBehavior.Sample.Views;assembly=XFEventToCommandBehavior.Sample"
+             xmlns:b="clr-namespace:XFEventToCommandBehavior;assembly=XFEventToCommandBehavior"
+             x:Class="XFEventToCommandBehavior.Sample.Views.MainPage">
+
+  <ContentPage.BindingContext>
+    <vm:MainPageViewModel />
+  </ContentPage.BindingContext>
+
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <vw:NavigationConverter x:Key="NavConverter" />
+    </ResourceDictionary>
+  </ContentPage.Resources>
+
+  <ContentPage.Behaviors>
+    <b:EventToCommand EventName="Appearing" Command="{Binding Loaded}" />
+  </ContentPage.Behaviors>
+
+  <StackLayout>
+    <Label Text="{Binding Message.Value}" FontSize="24" HorizontalOptions="Center" />
+    <WebView Source="{Binding Url.Value}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill" >
+      <WebView.Behaviors>
+        <b:EventToCommand EventName="Navigating" Command="{Binding Navigating}" Converter="{StaticResource NavConverter}" />
+        <b:EventToCommand EventName="Navigated" Command="{Binding Navigated}" Converter="{StaticResource NavConverter}" />
+      </WebView.Behaviors>
+    </WebView>
+  </StackLayout>
+
+</ContentPage>
+
